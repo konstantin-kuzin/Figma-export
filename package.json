@@ -4,7 +4,8 @@
   "description": "Smart backup system for Figma files",
   "main": "scripts/run-backup.js",
   "scripts": {
-    "backup": "node scripts/run-backup.js"
+    "backup": "node scripts/run-backup.js",
+    "report": "node scripts/generate-db-report.js"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
