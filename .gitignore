@@ -5,7 +5,8 @@ node_modules/
 /playwright/.cache/
 .auth/
 .env
-/files.json
+files.json
 downloads
 figma_backups.db
 rsync.sh
+.DS_Store

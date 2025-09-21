@@ -1,7 +1,10 @@
 const fs = require("node:fs");
 const path = require("path");
 const { execSync } = require("child_process");
+const dotenv = require("dotenv");
 const { close: closeDb } = require("./db");
+
+dotenv.config();
 
 async function runBackup() {
   try {
@@ -11,9 +14,21 @@ async function runBackup() {
       fs.unlinkSync(filesJsonPath);
     }
 
+    const teams = process.env.TEAMS;
+    const projects = process.env.PROJECTS;
+
     // Step 1: Generate files.json
-    console.log("Generating files.json...");
-    execSync("node scripts/get-team-files.js 1446837479148090378", { stdio: "inherit" });
+    if (teams) {
+      console.log(`Generating files.json for TEAMS: ${teams}...`);
+      execSync(`node scripts/get-team-files.js ${teams}`, { stdio: "inherit" });
+    }
+    else if (projects) {
+      console.log(`Generating files.json for PROJECTS: ${projects}...`);
+      execSync(`node scripts/get-project-files.js ${projects}`, { stdio: "inherit" });
+    } else {
+      console.log("PROJECTS/TEAMS are not defined in .env file. Skipping file generation.");
+      return;
+    }
 
     // Step 2: Run tests
     console.log("Running tests...");
